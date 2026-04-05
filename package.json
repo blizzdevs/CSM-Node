@@ -1,0 +1,39 @@
+{
+  "name": "node-engine-cms",
+  "version": "1.0.0",
+  "description": "NodeEngine — CMS para servidores privados de MU Online S6E3. Migración 1:1 de WebEngine a Node.js.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "prisma:generate": "npx prisma generate",
+    "prisma:pull": "npx prisma db pull"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "5.11.0",
+    "bcryptjs": "2.4.3",
+    "connect-mssql-v2": "6.0.0",
+    "cookie-parser": "1.4.6",
+    "csrf-csrf": "3.1.0",
+    "dotenv": "16.4.5",
+    "ejs": "3.1.10",
+    "express": "4.19.2",
+    "express-rate-limit": "7.2.0",
+    "express-session": "1.18.0",
+    "express-validator": "7.0.1",
+    "helmet": "7.1.0",
+    "hpp": "0.2.3",
+    "moment-timezone": "^0.6.1",
+    "morgan": "1.10.0",
+    "node-cron": "3.0.3",
+    "nodemailer": "6.9.13",
+    "prisma": "5.11.0",
+    "winston": "3.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "3.1.0"
+  }
+}

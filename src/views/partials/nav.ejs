@@ -1,0 +1,25 @@
+<nav class="navbar">
+    <div class="container">
+        <!-- Branding centered -->
+        <a href="/" class="nav-brand">Node<span>Engine</span></a>
+        
+        <!-- Links centered below branding -->
+        <ul class="nav-links">
+            <li><a href="/" class="<%= title.includes('Home') ? 'active' : '' %>">Home</a></li>
+            <li><a href="/downloads" class="<%= title.includes('Downloads') ? 'active' : '' %>">Downloads</a></li>
+            <li><a href="/rankings" class="<%= title.includes('Rankings') ? 'active' : '' %>">Rankings</a></li>
+            <li><a href="/news" class="<%= title.includes('News') ? 'active' : '' %>">News</a></li>
+            <li><a href="/contact" class="<%= title.includes('Contact') ? 'active' : '' %>">Contact</a></li>
+        </ul>
+
+        <!-- Action buttons moved to absolute right via CSS, but clean order here -->
+        <div class="nav-actions">
+            <% if (!locals.user) { %>
+                <a href="/register" class="btn btn-primary" style="font-size:10px;padding:8px 16px;">Register</a>
+                <a href="/login" class="btn btn-outline" style="font-size:10px;padding:8px 16px;">Login</a>
+            <% } else { %>
+                <a href="/usercp" class="btn btn-outline" style="font-size:10px;padding:8px 16px;">Account</a>
+            <% } %>
+        </div>
+    </div>
+</nav>

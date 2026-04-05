@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .static-hero {
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
+            padding: 60px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+        .static-content {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-sec);
+            line-height: 1.8;
+            font-size: 14px;
+        }
+        .static-content h2 {
+            font-family: var(--font-h);
+            color: var(--text);
+            margin-top: 40px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+<%- include('../../partials/nav') %>
+
+<main class="content-wrapper" style="padding:0;">
+    <section class="static-hero">
+        <div class="container">
+            <h1 class="hero-title" style="font-size:32px;margin-bottom:10px;">Refund Policy</h1>
+            <p style="color:var(--gold);font-size:12px;letter-spacing:1px;text-transform:uppercase;">Last Updated: April 2026</p>
+        </div>
+    </section>
+
+    <div class="container" style="padding-bottom: 80px;">
+        <div class="card static-content" style="padding: 40px;">
+            <h2>1. Digital Goods</h2>
+            <p>All donations made to the server are strictly voluntary. Because you are receiving virtual currency and virtual items, we generally do not offer refunds once the digital goods have been credited to your account.</p>
+
+            <h2>2. Chargebacks & Disputes</h2>
+            <p>Initiating a chargeback or payment dispute through your payment gateway or bank will result in the immediate and permanent suspension of your account and hardware ID. If you have an issue with a transaction, please contact our support team first.</p>
+
+            <h2>3. Support Interventions</h2>
+            <p>If a donation fails to credit automatically due to API delays or errors, you may open a support ticket with your transaction ID, and the administration will manually credit your account.</p>
+        </div>
+    </div>
+</main>
+
+<%- include('../../partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<%- include('../../partials/nav') %>
+<main class="content-wrapper">
+<div class="container" style="padding-top:40px;padding-bottom:60px;">
+    <div style="display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start;">
+
+        <!-- Sidebar -->
+        <div>
+            <%- include('../../partials/usercp-nav') %>
+        </div>
+
+        <!-- Contenido -->
+        <div>
+            <div class="section-title">My Account</div>
+
+            <!-- Info de la cuenta -->
+            <div class="card" style="margin-bottom:20px;">
+                <div class="card-title">Account Information</div>
+                <table class="table-mu">
+                    <tbody>
+                        <tr>
+                            <td style="color:var(--text-sec);width:160px;">Status</td>
+                            <td>
+                                <% if (account && account.bloc_code.trim() === '1') { %>
+                                    <span style="color:var(--accent);font-family:var(--font-h);font-size:11px;text-transform:uppercase;letter-spacing:.06em;">Banned</span>
+                                <% } else { %>
+                                    <span style="color:var(--gold);font-family:var(--font-h);font-size:11px;text-transform:uppercase;letter-spacing:.06em;">Active</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--text-sec);">Username</td>
+                            <td style="font-family:var(--font-mono);"><%= account ? account.memb___id : '—' %></td>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--text-sec);">Email</td>
+                            <td style="font-family:var(--font-mono);font-size:12px;">
+                                <%= account ? account.mail_addr : '—' %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--text-sec);">Password</td>
+                            <td>
+                                ••••••••
+                                <a href="/usercp/changepass" style="float:right;font-family:var(--font-h);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);">Change</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--text-sec);">Online Status</td>
+                            <td>
+                                <% if (online) { %>
+                                    <span style="color:#4caf50;font-family:var(--font-mono);font-size:12px;">● Online</span>
+                                <% } else { %>
+                                    <span style="color:var(--text-sec);font-family:var(--font-mono);font-size:12px;">○ Offline</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Personajes -->
+            <div class="card" style="margin-bottom:20px;">
+                <div class="card-title">Characters</div>
+                <% if (characters.length > 0) { %>
+                    <table class="table-mu">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Level</th>
+                                <th>Class</th>
+                                <th style="text-align:right;">Resets</th>
+                                <th style="text-align:right;">Zen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% characters.forEach(function(char) { %>
+                                <tr>
+                                    <td style="font-weight:500;"><%= char.Name %></td>
+                                    <td class="stat-val"><%= char.cLevel %></td>
+                                    <td class="text-sec" style="font-size:12px;"><%= char.Class %></td>
+                                    <td class="stat-val" style="text-align:right;"><%= char.ResetCount %></td>
+                                    <td class="stat-val" style="text-align:right;"><%= (char.Money || 0).toLocaleString() %></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                <% } else { %>
+                    <div style="text-align:center;padding:30px;color:var(--text-sec);font-size:13px;">No characters found on this account.</div>
+                <% } %>
+            </div>
+
+            <!-- Historial de conexiones -->
+            <% if (connectionHistory && connectionHistory.length > 0) { %>
+            <div class="card">
+                <div class="card-title">Connection History (Last 10)</div>
+                <table class="table-mu">
+                    <thead>
+                        <tr><th>Date</th><th>Server</th><th>IP Address</th><th>State</th></tr>
+                    </thead>
+                    <tbody>
+                        <% connectionHistory.forEach(function(row) { %>
+                            <tr>
+                                <td style="font-size:12px;"><%= row.ConnDate || '—' %></td>
+                                <td><%= row.ServerName || '—' %></td>
+                                <td style="font-family:var(--font-mono);font-size:12px;"><%= row.IP || '—' %></td>
+                                <td><%= row.State || '—' %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+</main>
+<%- include('../../partials/footer') %>
+</body>
+</html>

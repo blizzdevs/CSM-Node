@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<%- include('../partials/nav') %>
+<main class="content-wrapper">
+<div class="container" style="padding-top:40px;padding-bottom:60px;max-width:860px;">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+        <h1 class="section-title" style="border-bottom:none;margin-bottom:0;font-size:18px;">
+            <span>Game</span> Downloads
+        </h1>
+    </div>
+
+    <!-- Clients -->
+    <% if (clients && clients.length > 0) { %>
+    <div class="card" style="margin-bottom:20px;">
+        <div class="card-title" style="border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:16px;">
+            Full Game Clients
+        </div>
+        <table class="table-mu">
+            <tbody>
+            <% clients.forEach(function(d) { %>
+                <tr>
+                    <td style="width:60%;">
+                        <div style="font-family:var(--font-h);font-size:14px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;"><%= d.download_title %></div>
+                        <div style="font-size:12px;color:var(--text-sec);margin-top:4px;"><%= d.download_description %></div>
+                    </td>
+                    <td style="width:20%;text-align:center;">
+                        <span style="font-family:var(--font-mono);font-size:12px;color:var(--gold);"><%= Number(d.download_size).toFixed(2) %> GB</span>
+                    </td>
+                    <td style="width:20%;text-align:right;">
+                        <a href="<%= d.download_link %>" target="_blank" class="btn btn-primary" style="font-size:11px;">Download</a>
+                    </td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+    </div>
+    <% } %>
+
+    <!-- Patches -->
+    <% if (patches && patches.length > 0) { %>
+    <div class="card" style="margin-bottom:20px;">
+        <div class="card-title" style="border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:16px;">
+            Game Patches
+        </div>
+        <table class="table-mu">
+            <tbody>
+            <% patches.forEach(function(d) { %>
+                <tr>
+                    <td style="width:60%;">
+                        <div style="font-family:var(--font-h);font-size:14px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;"><%= d.download_title %></div>
+                        <div style="font-size:12px;color:var(--text-sec);margin-top:4px;"><%= d.download_description %></div>
+                    </td>
+                    <td style="width:20%;text-align:center;">
+                        <span style="font-family:var(--font-mono);font-size:12px;color:var(--gold);"><%= Number(d.download_size).toFixed(2) %> MB</span>
+                    </td>
+                    <td style="width:20%;text-align:right;">
+                        <a href="<%= d.download_link %>" target="_blank" class="btn btn-primary" style="font-size:11px;">Download</a>
+                    </td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+    </div>
+    <% } %>
+
+    <!-- Tools -->
+    <% if (tools && tools.length > 0) { %>
+    <div class="card" style="margin-bottom:20px;">
+        <div class="card-title" style="border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:16px;">
+            Tools & Utilities
+        </div>
+        <table class="table-mu">
+            <tbody>
+            <% tools.forEach(function(d) { %>
+                <tr>
+                    <td style="width:60%;">
+                        <div style="font-family:var(--font-h);font-size:14px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;"><%= d.download_title %></div>
+                        <div style="font-size:12px;color:var(--text-sec);margin-top:4px;"><%= d.download_description %></div>
+                    </td>
+                    <td style="width:20%;text-align:center;">
+                        <span style="font-family:var(--font-mono);font-size:12px;color:var(--gold);"><%= Number(d.download_size).toFixed(2) %> MB</span>
+                    </td>
+                    <td style="width:20%;text-align:right;">
+                        <a href="<%= d.download_link %>" target="_blank" class="btn btn-outline" style="font-size:11px;">Download</a>
+                    </td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+    </div>
+    <% } %>
+
+    <% if ((!clients || clients.length===0) && (!patches || patches.length===0) && (!tools || tools.length===0)) { %>
+        <div class="card" style="text-align:center;padding:60px 20px;color:var(--text-sec);font-size:13px;">
+            <div style="font-family:var(--font-h);font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">No downloads available</div>
+            <div>There are currently no files available for download.</div>
+        </div>
+    <% } %>
+
+</div>
+</main>
+<%- include('../partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .static-hero {
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
+            padding: 60px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+        .static-content {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-sec);
+            line-height: 1.8;
+            font-size: 14px;
+        }
+        .static-content h2 {
+            font-family: var(--font-h);
+            color: var(--text);
+            margin-top: 40px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+<%- include('../../partials/nav') %>
+
+<main class="content-wrapper" style="padding:0;">
+    <section class="static-hero">
+        <div class="container">
+            <h1 class="hero-title" style="font-size:32px;margin-bottom:10px;">Terms of Service</h1>
+            <p style="color:var(--gold);font-size:12px;letter-spacing:1px;text-transform:uppercase;">Last Updated: April 2026</p>
+        </div>
+    </section>
+
+    <div class="container" style="padding-bottom: 80px;">
+        <div class="card static-content" style="padding: 40px;">
+            <h2>1. Acceptance of Terms</h2>
+            <p>By registering and playing on this server, you confirm that you have read, understood, and agreed to these terms of service. Ignorance of these rules does not excuse you from potential account suspension or termination.</p>
+
+            <h2>2. User Accounts</h2>
+            <p>Accounts and their contents (characters, items, currency) belong to the server administration. Players are granted a license to use these accounts. Accounts may not be sold or transferred for real-world currency under any circumstances.</p>
+
+            <h2>3. Fair Play & Prohibited Action</h2>
+            <p>The use of third-party软件 (hacks, bots, macros that automate gameplay), exploiting server bugs, or abusing mechanics is strictly forbidden. Any attempt to compromise server integrity will result in an immediate permanent hardware ban.</p>
+        </div>
+    </div>
+</main>
+
+<%- include('../../partials/footer') %>
+</body>
+</html>

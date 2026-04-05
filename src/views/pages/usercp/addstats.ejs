@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<%- include('../../partials/nav') %>
+<main class="content-wrapper">
+<div class="container" style="padding-top:40px;padding-bottom:60px;">
+    <div style="display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start;">
+
+        <div><%- include('../../partials/usercp-nav') %></div>
+
+        <div>
+            <div class="section-title">Add Stats</div>
+
+            <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+            <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
+
+            <!-- Requirements -->
+            <div class="card" style="margin-bottom:20px;padding:14px 18px;">
+                <div class="card-title">Requirements</div>
+                <div style="display:flex;flex-wrap:wrap;gap:20px;">
+                    <% if (addstatsCfg.requiredLevel > 0) { %>
+                    <div>
+                        <div class="hero-stat-label">Min Level</div>
+                        <div class="hero-stat-value" style="font-size:20px;"><%= addstatsCfg.requiredLevel %></div>
+                    </div>
+                    <% } %>
+                    <% if (addstatsCfg.zenCost > 0) { %>
+                    <div>
+                        <div class="hero-stat-label">Zen/Use</div>
+                        <div class="hero-stat-value" style="font-size:20px;"><%= addstatsCfg.zenCost.toLocaleString() %></div>
+                    </div>
+                    <% } %>
+                    <div>
+                        <div class="hero-stat-label">Max Stat</div>
+                        <div class="hero-stat-value" style="font-size:20px;"><%= addstatsCfg.maxStats.toLocaleString() %></div>
+                    </div>
+                    <% if (addstatsCfg.minimumLimit > 0) { %>
+                    <div>
+                        <div class="hero-stat-label">Min Points</div>
+                        <div class="hero-stat-value" style="font-size:20px;"><%= addstatsCfg.minimumLimit %></div>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Un card por personaje (replica el foreach de addstats.php) -->
+            <% characters.forEach(function(char) { %>
+                <div class="card" style="margin-bottom:20px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border);">
+                        <div>
+                            <div style="font-family:var(--font-h);font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;"><%= char.Name %></div>
+                            <div style="font-size:12px;color:var(--text-sec);margin-top:4px;">
+                                Available points: <span style="font-family:var(--font-mono);color:var(--gold)"><%= char.LevelUpPoint %></span>
+                            </div>
+                        </div>
+                    </div>
+                    <form action="/usercp/addstats" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <input type="hidden" name="character" value="<%= char.Name %>">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                            <div class="form-group">
+                                <label class="form-label">Strength (<%= char.Strength %>)</label>
+                                <input type="number" name="add_str" class="form-input" min="0" max="<%= addstatsCfg.maxStats %>" value="0" placeholder="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Agility (<%= char.Dexterity %>)</label>
+                                <input type="number" name="add_agi" class="form-input" min="0" max="<%= addstatsCfg.maxStats %>" value="0" placeholder="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Vitality (<%= char.Vitality %>)</label>
+                                <input type="number" name="add_vit" class="form-input" min="0" max="<%= addstatsCfg.maxStats %>" value="0" placeholder="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Energy (<%= char.Energy %>)</label>
+                                <input type="number" name="add_ene" class="form-input" min="0" max="<%= addstatsCfg.maxStats %>" value="0" placeholder="0">
+                            </div>
+                            <!-- Command solo para clases que lo soportan (Dark Lord: class 16/17/18) -->
+                            <% if ([16,17,18].includes(char.Class)) { %>
+                            <div class="form-group">
+                                <label class="form-label">Command (<%= char.Leadership %>)</label>
+                                <input type="number" name="add_cmd" class="form-input" min="0" max="<%= addstatsCfg.maxStats %>" value="0" placeholder="0">
+                            </div>
+                            <% } %>
+                        </div>
+                        <div style="text-align:right;margin-top:8px;">
+                            <button type="submit" class="btn btn-primary">Add Stats</button>
+                        </div>
+                    </form>
+                </div>
+            <% }) %>
+
+            <% if (characters.length === 0) { %>
+                <div class="card" style="text-align:center;padding:40px;color:var(--text-sec);font-size:13px;">No characters found.</div>
+            <% } %>
+        </div>
+    </div>
+</div>
+</main>
+<%- include('../../partials/footer') %>
+</body>
+</html>

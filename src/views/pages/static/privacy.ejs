@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .static-hero {
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
+            padding: 60px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+        .static-content {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-sec);
+            line-height: 1.8;
+            font-size: 14px;
+        }
+        .static-content h2 {
+            font-family: var(--font-h);
+            color: var(--text);
+            margin-top: 40px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+<%- include('../../partials/nav') %>
+
+<main class="content-wrapper" style="padding:0;">
+    <section class="static-hero">
+        <div class="container">
+            <h1 class="hero-title" style="font-size:32px;margin-bottom:10px;">Privacy Policy</h1>
+            <p style="color:var(--gold);font-size:12px;letter-spacing:1px;text-transform:uppercase;">Last Updated: April 2026</p>
+        </div>
+    </section>
+
+    <div class="container" style="padding-bottom: 80px;">
+        <div class="card static-content" style="padding: 40px;">
+            <h2>1. Information Collection</h2>
+            <p>We collect essential information required for the operation of the server, including but not limited to: your email address, IP addresses associated with logins, and hardware identification strings for security modules.</p>
+
+            <h2>2. Use of Information</h2>
+            <p>Your information is stored strictly for account recovery, account security, and enforcing server rules. We do not sell or distribute your personal data to any external parties or marketing agencies.</p>
+
+            <h2>3. Cookies and Tracking</h2>
+            <p>The NodeEngine CMS uses cookies essential for session management and anti-CSRF protection. No third-party tracking scripts are embedded within our core platform.</p>
+        </div>
+    </div>
+</main>
+
+<%- include('../../partials/footer') %>
+</body>
+</html>

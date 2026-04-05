@@ -1,0 +1,161 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ─── Base de datos de juego (MuOnline) ───────────────────────────────────────
+// Tablas originales del GameServer S6E3.
+// Los nombres de tabla y columna son EXACTAMENTE los del servidor de juego.
+// No se renombran, no se modifica lógica.
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+// ─── MEMB_INFO — Cuentas (equivalente a _TBL_MI_ en WebEngine) ───────────────
+model MEMB_INFO {
+  memb___id  String    @id @db.VarChar(10) // _CLMN_USERNM_
+  memb__pwd  String    @db.VarChar(100)    // _CLMN_PASSWD_
+  memb_name  String    @db.VarChar(10)     // _CLMN_MEMBNAME_
+  sno__numb  String    @db.Char(13)        // _CLMN_SNONUMBER_
+  post_code  String?   @db.Char(6)
+  addr_info  String?   @db.VarChar(50)
+  addr_deta  String?   @db.VarChar(50)
+  tel__numb  String?   @db.VarChar(20)
+  phon_numb  String?   @db.VarChar(15)
+  mail_addr  String    @db.VarChar(50)     // _CLMN_EMAIL_
+  fpas_ques  String?   @db.VarChar(50)
+  fpas_answ  String?   @db.VarChar(50)
+  job__code  String?   @db.Char(2)
+  appl_days  DateTime? @db.DateTime
+  modi_days  DateTime? @db.DateTime
+  out__days  DateTime? @db.DateTime
+  true_days  DateTime? @db.DateTime
+  mail_check String?   @db.Char(1)
+  bloc_code  String    @db.Char(1)         // _CLMN_BLOCCODE_
+  ctl1_code  String    @db.Char(1)         // _CLMN_CTLCODE_  (0=user, 1=subgm, 2=gm)
+  cspoints   Int       @default(0)
+  VipType    Int?      @default(0)         @db.TinyInt
+  VipDate    DateTime? @db.DateTime
+
+  @@map("MEMB_INFO")
+}
+
+// ─── MEMB_STAT — Estado de conexión (_TBL_MS_) ───────────────────────────────
+model MEMB_STAT {
+  memb___id    String    @id @db.VarChar(10) // _CLMN_MS_MEMBID_
+  ConnectStat  Int?      @db.TinyInt          // _CLMN_CONNSTAT_ (1 = online)
+  ConnectTM    DateTime? @db.DateTime
+  DisConnectTM DateTime? @db.DateTime
+  ServerName   String?   @db.VarChar(50)      // _CLMN_MS_GS_
+  IP           String?   @db.VarChar(15)      // _CLMN_MS_IP_
+
+  @@map("MEMB_STAT")
+}
+
+// ─── AccountCharacter (_TBL_AC_) ─────────────────────────────────────────────
+model AccountCharacter {
+  Id           String  @id @db.VarChar(10) // _CLMN_AC_ID_
+  GameID1      String? @db.VarChar(10)
+  GameID2      String? @db.VarChar(10)
+  GameID3      String? @db.VarChar(10)
+  GameID4      String? @db.VarChar(10)
+  GameID5      String? @db.VarChar(10)
+  GameIDC      Int?    @default(0)         // _CLMN_GAMEIDC_
+  ExtWarehouse Int?    @default(0)         @db.TinyInt // _CLMN_WHEXPANSION_
+
+  @@map("AccountCharacter")
+}
+
+// ─── Character (_TBL_CHR_) ───────────────────────────────────────────────────
+// Solo clases S6E3 y anteriores. Sin Slayer, Rune Mage ni Grow Lancer post-S6.
+model Character {
+  AccountID       String  @db.VarChar(10)  // _CLMN_CHR_ACCID_
+  Name            String  @id @db.VarChar(10) // _CLMN_CHR_NAME_
+  cLevel          Int     @default(1)       // _CLMN_CHR_LVL_
+  LevelUpPoint    Int     @default(0)       // _CLMN_CHR_LVLUP_POINT_
+  Class           Int     @db.TinyInt       // _CLMN_CHR_CLASS_
+  Experience      BigInt  @default(0)
+  Strength        Int     @default(0)       // _CLMN_CHR_STAT_STR_
+  Dexterity       Int     @default(0)       // _CLMN_CHR_STAT_AGI_
+  Vitality        Int     @default(0)       // _CLMN_CHR_STAT_VIT_
+  Energy          Int     @default(0)       // _CLMN_CHR_STAT_ENE_
+  Leadership      Int     @default(0)       // _CLMN_CHR_STAT_CMD_ (solo DL)
+  Inventory       Bytes?  @db.Binary(1728)  // _CLMN_CHR_INV_
+  MagicList       Bytes?  @db.Binary(180)   // _CLMN_CHR_MAGIC_L_
+  Money           Int     @default(0)       // _CLMN_CHR_ZEN_
+  Life            Float   @db.Real
+  MaxLife         Float   @db.Real
+  Mana            Float   @db.Real
+  MaxMana         Float   @db.Real
+  MapNumber       Int     @db.SmallInt      // _CLMN_CHR_MAP_
+  MapPosX         Int     @db.SmallInt      // _CLMN_CHR_MAP_X_
+  MapPosY         Int     @db.SmallInt      // _CLMN_CHR_MAP_Y_
+  MapDir          Int     @db.TinyInt
+  PkCount         Int     @default(0) @db.SmallInt  // _CLMN_CHR_PK_KILLS_
+  PkLevel         Int     @default(3) @db.SmallInt  // _CLMN_CHR_PK_LEVEL_
+  PkTime          Int     @default(0)               // _CLMN_CHR_PK_TIME_
+  CtlCode         Int     @default(0) @db.TinyInt   // 0=user, 1=subgm, 2=gm — excluir en rankings
+  DbVersion       Int     @default(0) @db.TinyInt
+  Quest           Bytes?  @db.Binary(50)
+  ResetCount      Int     @default(0)       // _CLMN_CHR_RSTS_
+  MasterResetCount Int    @default(0)       // _CLMN_CHR_GRSTS_
+  MasterLevel     Int     @default(0)
+
+  @@map("Character")
+}
+
+// ─── Guild (_TBL_GUILD_) ─────────────────────────────────────────────────────
+model Guild {
+  G_Name   String  @id @db.VarChar(8)   // _CLMN_GUILD_NAME_
+  G_Mark   Bytes?  @db.Binary(32)       // _CLMN_GUILD_LOGO_
+  G_Score  Int     @default(0)          // _CLMN_GUILD_SCORE_
+  G_Master String? @db.VarChar(10)      // _CLMN_GUILD_MASTER_
+  G_Notice String? @db.VarChar(60)      // _CLMN_GUILD_NOTICE_
+  G_Count  Int     @default(0)
+  Number   Int     @default(autoincrement())
+  G_Type   Int     @default(0) @db.TinyInt
+  G_Union  Int     @default(0)
+  G_Server Int     @default(0)
+  G_Rival  Int     @default(0)
+
+  @@map("Guild")
+}
+
+// ─── GuildMember (_TBL_GUILDMEMB_) ──────────────────────────────────────────
+model GuildMember {
+  Name     String @id @db.VarChar(10)  // _CLMN_GUILDMEMB_CHAR_
+  G_Name   String @db.VarChar(8)       // _CLMN_GUILDMEMB_NAME_
+  G_Level  Int?   @db.TinyInt          // _CLMN_GUILDMEMB_LEVEL_
+  G_Status Int?   @db.TinyInt          // _CLMN_GUILDMEMB_STATUS_
+
+  @@map("GuildMember")
+}
+
+// ─── MasterSkillTree (S6 Master Level) ───────────────────────────────────────
+model MasterSkillTree {
+  Name             String  @id @db.VarChar(10) // _CLMN_ML_NAME_
+  MasterLevel      Int     @default(0)          // _CLMN_ML_LVL_
+  MasterExperience BigInt  @default(0)          // _CLMN_ML_EXP_
+  MasterPoint      Int     @default(0)          // _CLMN_ML_POINT_
+  MasterSkill      Bytes?  @db.Binary(200)      // _CLMN_ML_SKILL_
+
+  @@map("MasterSkillTree")
+}
+
+// ─── Gens_Rank (Sistema de Gens — S6) ────────────────────────────────────────
+model Gens_Rank {
+  Name         String @id @db.VarChar(10) // _CLMN_GENS_NAME_
+  Family       Int    @db.TinyInt          // _CLMN_GENS_TYPE_  0=Duprian, 1=Vanert
+  Contribution Int    @default(0)          // _CLMN_GENS_POINT_
+
+  @@map("Gens_Rank")
+}
+
+// ─── CastleSiege_MarkOfLord (Castle Siege S6) ────────────────────────────────
+model CastleSiege_MarkOfLord {
+  REG_SIEGE_GUILD String @id @db.Char(8)
+  REG_MARKS       Int    @default(0)
+
+  @@map("CastleSiege_MarkOfLord")
+}

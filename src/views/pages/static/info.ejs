@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .static-hero {
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
+            padding: 60px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .info-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 20px;
+            text-align: center;
+        }
+        .info-box-title {
+            color: var(--text-sec);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .info-box-val {
+            color: var(--gold);
+            font-size: 24px;
+            font-family: var(--font-mono);
+        }
+    </style>
+</head>
+<body>
+<%- include('../../partials/nav') %>
+
+<main class="content-wrapper" style="padding:0;">
+    <section class="static-hero">
+        <div class="container">
+            <h1 class="hero-title" style="font-size:32px;margin-bottom:10px;">Server Information</h1>
+            <p style="color:var(--text-sec);font-size:14px;">Detailed configuration and real-time statistics</p>
+        </div>
+    </section>
+
+    <div class="container" style="padding-bottom: 80px;">
+        
+        <h2 style="font-family: var(--font-h); font-size: 20px; margin-bottom: 20px; text-transform: uppercase;">Live Statistics</h2>
+        <div class="info-grid">
+            <div class="info-box">
+                <div class="info-box-title">Total Accounts</div>
+                <div class="info-box-val"><%= (serverInfo.accounts || 0).toLocaleString() %></div>
+            </div>
+            <div class="info-box">
+                <div class="info-box-title">Total Characters</div>
+                <div class="info-box-val"><%= (serverInfo.characters || 0).toLocaleString() %></div>
+            </div>
+            <div class="info-box">
+                <div class="info-box-title">Total Guilds</div>
+                <div class="info-box-val"><%= (serverInfo.guilds || 0).toLocaleString() %></div>
+            </div>
+            <div class="info-box" style="border-color: var(--gold);">
+                <div class="info-box-title" style="color: var(--gold);">Online Players</div>
+                <div class="info-box-val" style="color: #fff;"><%= (serverInfo.online || 0).toLocaleString() %></div>
+            </div>
+        </div>
+
+        <h2 style="font-family: var(--font-h); font-size: 20px; margin-bottom: 20px; text-transform: uppercase;">Configuration Rates</h2>
+        <div class="card" style="padding: 0;">
+            <table class="table-mu">
+                <tbody>
+                    <tr>
+                        <td style="color:var(--text-sec); width: 50%;">Version</td>
+                        <td style="text-align:right; font-weight: 500;">Season 6 Episode 3</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--text-sec);">Experience Rate</td>
+                        <td style="text-align:right; font-weight: 500;">100x</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--text-sec);">Master EXP Rate</td>
+                        <td style="text-align:right; font-weight: 500;">50x</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--text-sec);">Item Drop Rate</td>
+                        <td style="text-align:right; font-weight: 500;">40%</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--text-sec);">Max Level</td>
+                        <td style="text-align:right; font-weight: 500;">400</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--text-sec);">Max Master Level</td>
+                        <td style="text-align:right; font-weight: 500;">400</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--text-sec);">Reset Level</td>
+                        <td style="text-align:right; font-weight: 500;">400</td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--text-sec);">Points per Reset</td>
+                        <td style="text-align:right; font-weight: 500;">500</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</main>
+
+<%- include('../../partials/footer') %>
+</body>
+</html>

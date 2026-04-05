@@ -1,0 +1,11 @@
+{
+  "castleInfo": {
+    "CASTLE_OCCUPY": true,
+    "OWNER_GUILD": "teste3",
+    "MONEY": 2001080000,
+    "TAX_RATE_CHAOS": 3,
+    "TAX_RATE_STORE": 0
+  },
+  "ownerGuild": null,
+  "last_update": 1775428058
+}

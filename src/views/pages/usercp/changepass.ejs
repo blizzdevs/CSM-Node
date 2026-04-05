@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<%- include('../../partials/nav') %>
+<main class="content-wrapper">
+<div class="container" style="padding-top:40px;padding-bottom:60px;">
+    <div style="display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start;">
+
+        <div><%- include('../../partials/usercp-nav') %></div>
+
+        <div>
+            <div class="section-title">Change Password</div>
+
+            <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+            <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
+
+            <div class="card" style="max-width:480px;">
+                <div class="card-title">Update Password</div>
+                <form action="/usercp/changepass" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                    <div class="form-group">
+                        <label class="form-label" for="currentPass">Current Password</label>
+                        <input type="password" id="currentPass" name="currentPass" class="form-input" maxlength="12" required autocomplete="current-password">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="newPass">New Password
+                            <span style="float:right;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-sec);">4–12 characters</span>
+                        </label>
+                        <input type="password" id="newPass" name="newPass" class="form-input" minlength="4" maxlength="12" required autocomplete="new-password">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="confirmPass">Confirm New Password</label>
+                        <input type="password" id="confirmPass" name="confirmPass" class="form-input" minlength="4" maxlength="12" required autocomplete="new-password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block" style="margin-top:8px;">Change Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+<%- include('../../partials/footer') %>
+</body>
+</html>

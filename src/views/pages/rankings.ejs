@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<%- include('../partials/nav') %>
+<main class="content-wrapper">
+<div class="container" style="padding-top:40px;padding-bottom:60px;">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+        <h1 class="section-title" style="border-bottom:none;margin-bottom:0;font-size:18px;">
+            <span>Server</span> Rankings
+        </h1>
+    </div>
+
+    <!-- Menú de tabs (replica rankingsMenu() de WebEngine) -->
+    <div class="tabs" id="rankingsTabs" style="margin-bottom:0;">
+        <% menu.forEach(function(item) { %>
+            <a href="/rankings/<%= item.slug %>"
+               class="tab-btn <%= type === item.slug ? 'active' : '' %>"
+               style="text-decoration:none;">
+                <%= item.label %>
+            </a>
+        <% }) %>
+    </div>
+
+    <!-- Tabla de rankings (genérica, replica rankings/level.php etc.) -->
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-top:none;">
+        <% if (rows && rows.length > 0) { %>
+            <table class="table-mu">
+                <thead>
+                    <tr>
+                        <% columns.forEach(function(col) { %>
+                            <th class="<%= col[1] %>" style="<%= col[1]==='r-pos' ? 'width:48px;text-align:center;' : col[1]==='r-val' ? 'text-align:right;' : '' %>">
+                                <%= col[0] %>
+                            </th>
+                        <% }) %>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% rows.forEach(function(row, idx) { %>
+                        <tr>
+                            <!-- Posición -->
+                            <td class="rank-num"><%= idx + 1 %></td>
+                            <!-- Render dinámico de las columnas configuradas -->
+                            <% const rowData = rowFields(row); %>
+                            <% rowData.forEach(function(cellValue, i) { %>
+                                <% if (i === 0) { %>
+                                    <td style="font-weight:500;"><%= cellValue %></td>
+                                <% } else if (typeof cellValue === 'number') { %>
+                                    <td class="stat-val" style="text-align:right;"><%= cellValue.toLocaleString() %></td>
+                                <% } else { %>
+                                    <td class="text-sec" style="font-size:12px;"><%= cellValue || '—' %></td>
+                                <% } %>
+                            <% }) %>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            <% if (updated) { %>
+                <div style="padding:10px 16px;border-top:1px solid var(--border);text-align:right;">
+                    <span style="font-size:11px;font-family:var(--font-mono);color:var(--text-sec);">
+                        Last updated: <%= new Date(updated * 1000).toLocaleDateString('en-US', {month:'2-digit',day:'2-digit',year:'numeric'}) %>
+                        <%= new Date(updated * 1000).toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit'}) %>
+                    </span>
+                </div>
+            <% } %>
+        <% } else { %>
+            <div style="text-align:center;padding:60px 20px;color:var(--text-sec);font-size:13px;">
+                <div style="font-family:var(--font-h);font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">Rankings Empty</div>
+                <div>There are currently no players/guilds meeting the requirements for this ranking.</div>
+            </div>
+        <% } %>
+    </div>
+
+</div>
+</main>
+<%- include('../partials/footer') %>
+</body>
+</html>

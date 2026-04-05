@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<%- include('../partials/nav') %>
+
+<main class="content-wrapper">
+    <div class="error-wrapper">
+        <div>
+            <div class="error-code">404</div>
+            <div class="error-msg">Page Not Found</div>
+            <p class="error-sub"><%= message || 'The page you are looking for does not exist or has been moved.' %></p>
+            <a href="/" class="btn btn-primary">Return Home</a>
+        </div>
+    </div>
+</main>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

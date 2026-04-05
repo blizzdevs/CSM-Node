@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NodeEngine — Season 6 Episode 3 MU Online Private Server. Official centered TERA-inspired CMS.">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<%- include('../partials/nav') %>
+
+<main class="content-wrapper">
+    <div class="container">
+
+        <!-- ── Hero ─────────────────────────────────────────────── -->
+        <section class="hero">
+            <p class="hero-eyebrow">Season 6 · Episode 3</p>
+            <h1 class="hero-title">Rise of<br><span>Darkness</span></h1>
+            <p class="hero-desc">
+                Experience MU Online like never before. 
+                Full Season 6 features, stable economy, and epic battles.
+            </p>
+            <div class="hero-actions">
+                <a href="/register" class="btn btn-primary">Join the Fight</a>
+                <a href="/downloads" class="btn btn-outline">Download Now</a>
+            </div>
+        </section>
+
+        <!-- ── Server Stats (TERA Horizontal) ────────────────────── -->
+        <div class="info-row">
+            <div class="info-item">
+                <div class="info-label">Accounts</div>
+                <div class="info-value"><%= (serverInfo.accounts || 0).toLocaleString() %></div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Characters</div>
+                <div class="info-value"><%= (serverInfo.characters || 0).toLocaleString() %></div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Guilds</div>
+                <div class="info-value"><%= (serverInfo.guilds || 0).toLocaleString() %></div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Online</div>
+                <div class="info-value" style="color:#00ff00; text-shadow:0 0 10px rgba(0,255,0,0.5)">
+                    <%= (serverInfo.online || 0).toLocaleString() %>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Event Timers (Centered Glass) ──────────────────────── -->
+        <div class="card mb-60" style="max-width: 800px; margin-left: auto; margin-right: auto;">
+            <div class="card-title">Active Events</div>
+            <div id="event-timers-container">
+                <!-- Timers populated by JS -->
+                <div style="text-align:center; color:var(--text-sec); padding: 20px;">Synchronizing with server time...</div>
+            </div>
+        </div>
+
+        <!-- ── News & Rankings ─────────────────────────────────── -->
+        <div style="width:100%; max-width: 1000px; margin: 0 auto 100px;">
+            <div class="tabs" id="homeTabs">
+                <button class="tab-btn active" data-tab="tab-news">Latest News</button>
+                <button class="tab-btn" data-tab="tab-level">Top Level</button>
+                <button class="tab-btn" data-tab="tab-guilds">Top Guilds</button>
+            </div>
+
+            <!-- News Tab -->
+            <div class="tab-panel active card" id="tab-news" style="padding:0;">
+                <% if (news.length > 0) { %>
+                    <div style="display: flex; flex-direction: column;">
+                        <% news.forEach(function(article) { %>
+                            <div style="padding:24px 30px; border-bottom: 1px solid var(--border); display:flex; justify-content: space-between; align-items:center;">
+                                <div>
+                                    <span style="color:var(--accent); font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase;">News</span>
+                                    <a href="/news/<%= article.news_id %>" style="display:block; font-size:16px; margin-top:4px; font-weight:500; transition:color 0.2s;" class="hover-gold">
+                                        <%= Buffer.from(article.news_title, 'base64').toString('utf8') %>
+                                    </a>
+                                </div>
+                                <span style="font-family:var(--font-mono); color:var(--text-sec); font-size:12px;">
+                                    <%= new Date(article.news_date * 1000).toLocaleDateString() %>
+                                </span>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% } else { %>
+                    <div style="padding:100px 30px; text-align:center; color:var(--text-sec);">The archives are currently empty.</div>
+                <% } %>
+                <div style="padding:20px; text-align:center;">
+                    <a href="/news" class="btn btn-outline" style="font-size:10px;">Read More News</a>
+                </div>
+            </div>
+
+            <!-- Rankings Tab (Level) -->
+            <div class="tab-panel card" id="tab-level" style="padding:0;">
+                <table class="table-mu">
+                    <thead>
+                        <tr>
+                            <th style="width:80px; text-align:center;">#</th>
+                            <th>Warrior Name</th>
+                            <th>Class</th>
+                            <th style="text-align:center;">Level</th>
+                            <th style="text-align:right;">Resets</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (topLevel.length > 0) { %>
+                            <% topLevel.forEach(function(char, i) { %>
+                                <tr>
+                                    <td style="text-align:center; color:var(--gold); font-family:var(--font-mono);"><%= i + 1 %></td>
+                                    <td style="font-weight:600;"><%= char.Name %></td>
+                                    <td style="color:var(--text-sec); font-size:12px;"><%= char.Class %></td>
+                                    <td style="text-align:center; color:var(--gold);"><%= char.cLevel %></td>
+                                    <td style="text-align:right; font-weight:700;"><%= char.ResetCount %></td>
+                                </tr>
+                            <% }) %>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Rankings Tab (Guilds) -->
+            <div class="tab-panel card" id="tab-guilds" style="padding:0;">
+                <table class="table-mu">
+                    <thead>
+                        <tr>
+                            <th style="width:80px; text-align:center;">#</th>
+                            <th>Guild Union</th>
+                            <th>Master</th>
+                            <th style="text-align:right;">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (topGuilds.length > 0) { %>
+                            <% topGuilds.forEach(function(guild, i) { %>
+                                <tr>
+                                    <td style="text-align:center; color:var(--gold); font-family:var(--font-mono);"><%= i + 1 %></td>
+                                    <td style="font-weight:600;"><%= guild.G_Name %></td>
+                                    <td style="color:var(--text-sec); font-size:12px;"><%= guild.G_Master || '—' %></td>
+                                    <td style="text-align:right; color:var(--gold); font-weight:700;"><%= (guild.G_Score || 0).toLocaleString() %></td>
+                                </tr>
+                            <% }) %>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<%- include('../partials/footer') %>
+
+<script>
+    function formatTimeLeft(seconds) {
+        if (seconds <= 0) return '<span style="color:#00ff00;">READY</span>';
+        let h = Math.floor(seconds / 3600);
+        let m = Math.floor((seconds % 3600) / 60);
+        let s = Math.floor(seconds % 60);
+        return [
+            h.toString().padStart(2, '0'),
+            m.toString().padStart(2, '0'),
+            s.toString().padStart(2, '0')
+        ].join(':');
+    }
+
+    async function loadEvents() {
+        try {
+            const res = await fetch('/api/events');
+            const data = await res.json();
+            const container = document.getElementById('event-timers-container');
+            container.innerHTML = '<div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 20px;"></div>';
+            const grid = container.querySelector('div');
+            
+            const eventsArray = Object.keys(data).map(k => ({ id: k, ...data[k] }));
+            eventsArray.forEach(ev => {
+                const box = document.createElement('div');
+                box.style.cssText = 'padding:15px; border:1px solid rgba(255,255,255,0.05); background:rgba(0,0,0,0.2); text-align:center; border-radius:3px;';
+                box.innerHTML = `
+                    <div style="font-size:10px; color:var(--text-sec); text-transform:uppercase; margin-bottom:5px;">${ev.event}</div>
+                    <div id="timer-${ev.id}" style="font-family:var(--font-mono); font-size:18px; color:#fff;">${formatTimeLeft(ev.timeleft)}</div>
+                `;
+                grid.appendChild(box);
+            });
+
+            setInterval(() => {
+                eventsArray.forEach(ev => {
+                    if (ev.timeleft > 0) ev.timeleft--;
+                    else if (ev.timeleft <= -60) location.reload();
+                    else ev.timeleft--;
+                    const el = document.getElementById(`timer-${ev.id}`);
+                    if (el) el.innerHTML = formatTimeLeft(ev.timeleft);
+                });
+            }, 1000);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadEvents);
+</script>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

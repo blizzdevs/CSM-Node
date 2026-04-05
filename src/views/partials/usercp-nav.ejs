@@ -1,0 +1,28 @@
+<!-- src/views/partials/usercp-nav.ejs -->
+<!-- Sidebar de navegación del UserCP — replica templateBuildUsercp() de WebEngine -->
+<div style="background:var(--bg-card);border:1px solid var(--border);border-top:3px solid var(--accent);padding:0;margin-bottom:0;">
+    <div style="padding:14px 18px;border-bottom:1px solid var(--border);">
+        <div style="font-family:var(--font-h);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);">Player Control Panel</div>
+        <div style="font-size:12px;color:var(--text-sec);margin-top:4px;font-family:var(--font-mono);"><%= locals.user.name %></div>
+    </div>
+    <ul style="list-style:none;padding:6px 0;">
+        <% const ucMenuItems = [
+            { href:'/usercp',             label:'My Account'       },
+            { href:'/usercp/reset',       label:'Character Reset'  },
+            { href:'/usercp/addstats',    label:'Add Stats'        },
+            { href:'/usercp/changepass',  label:'Change Password'  },
+            { href:'/usercp/changeemail', label:'Change Email'     },
+        ]; %>
+        <% ucMenuItems.forEach(function(item) { %>
+            <li>
+                <a href="<%= item.href %>"
+                   style="display:block;padding:10px 18px;font-family:var(--font-b);font-size:12px;color:<%= locals.path === item.href ? 'var(--text)' : 'var(--text-sec)' %>;border-left:2px solid <%= locals.path === item.href ? 'var(--accent)' : 'transparent' %>;background:<%= locals.path === item.href ? 'rgba(139,0,0,.08)' : 'transparent' %>;transition:all .15s;">
+                    <%= item.label %>
+                </a>
+            </li>
+        <% }) %>
+        <li style="padding:10px 18px;border-top:1px solid var(--border);margin-top:6px;">
+            <a href="/logout" style="font-family:var(--font-h);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);">Logout</a>
+        </li>
+    </ul>
+</div>

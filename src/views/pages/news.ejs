@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<%- include('../partials/nav') %>
+<main class="content-wrapper">
+<div class="container" style="padding-top:40px;padding-bottom:60px;">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+        <h1 class="section-title" style="border-bottom:none;margin-bottom:0;font-size:18px;">
+            <span>Latest</span> News
+        </h1>
+    </div>
+
+    <% if (news.length > 0) { %>
+        <% news.forEach(function(article) { %>
+            <div class="card" style="margin-bottom:20px;">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border);">
+                    <div>
+                        <a href="/news/<%= article.news_id %>" style="font-family:var(--font-h);font-size:16px;letter-spacing:0.04em;text-transform:uppercase;color:var(--text);transition:color .2s;" onmouseenter="this.style.color='var(--gold)'" onmouseleave="this.style.color='var(--text)'">
+                            <%= article.news_title %>
+                        </a>
+                        <div style="margin-top:6px;font-size:11px;color:var(--text-sec);">
+                            By <span style="color:var(--gold);font-family:var(--font-mono);"><%= article.news_author %></span>
+                            &nbsp;·&nbsp;
+                            <%= new Date(article.news_date * 1000).toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}) %>
+                        </div>
+                    </div>
+                    <a href="/news/<%= article.news_id %>" class="btn btn-outline" style="flex-shrink:0;font-size:10px;padding:7px 14px;">Read More</a>
+                </div>
+                <div style="font-size:13px;color:var(--text-sec);line-height:1.8;max-height:80px;overflow:hidden;text-overflow:ellipsis;">
+                    <%- article.news_content.replace(/<[^>]*>/g, '').substring(0, 200) %>...
+                </div>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <div class="card" style="text-align:center;padding:60px 20px;">
+            <div style="font-family:var(--font-h);font-size:14px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-sec);">No news published yet</div>
+        </div>
+    <% } %>
+</div>
+</main>
+<%- include('../partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,46 @@
+// This is your Prisma schema file for Me_MuOnline (CMS data)
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/cms"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL_CMS")
+}
+
+model WEBENGINE_NEWS {
+  news_id          Int      @id @default(autoincrement())
+  news_title       String   @db.NVarChar(Max)
+  news_content     String   @db.NVarChar(Max)
+  news_author      String   @db.NVarChar(255)
+  news_date        Int
+  allow_comments   Int      @default(1)
+
+  @@map("WEBENGINE_NEWS")
+}
+
+model WEBENGINE_CRON {
+  cron_id          Int      @id @default(autoincrement())
+  cron_name        String   @db.NVarChar(255)
+  cron_file_run    String   @db.NVarChar(255)
+  cron_run_time    Int
+  cron_last_run    Int?
+  cron_status      Int      @default(1)
+  cron_protected   Int      @default(0)
+  cron_file_md5    String?  @db.NVarChar(32)
+
+  @@map("WEBENGINE_CRON")
+}
+
+model WEBENGINE_VOTES {
+  vote_id          Int      @id @default(autoincrement())
+  vote_user        String   @db.NVarChar(10)
+  vote_site_id     Int
+  vote_ip          String   @db.NVarChar(15)
+  vote_date        Int
+
+  @@map("WEBENGINE_VOTES")
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .contact-hero {
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
+            padding: 60px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+        .contact-form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<%- include('../../partials/nav') %>
+
+<main class="content-wrapper" style="padding:0;">
+    <section class="contact-hero">
+        <div class="container">
+            <h1 class="hero-title" style="font-size:32px;margin-bottom:10px;">Contact Us</h1>
+            <p style="color:var(--text-sec);font-size:14px;">Need help? Send us a message.</p>
+        </div>
+    </section>
+
+    <div class="container" style="padding-bottom: 80px;">
+        <div class="card contact-form-container">
+            
+            <% if (flashSuccess && flashSuccess.length > 0) { %>
+                <div class="flash-success" style="margin-bottom: 20px;">
+                    <%= flashSuccess[0] %>
+                </div>
+            <% } %>
+
+            <% if (flashError && flashError.length > 0) { %>
+                <div class="flash-error" style="margin-bottom: 20px;">
+                    <%= flashError[0] %>
+                </div>
+            <% } %>
+
+            <form action="/contact" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" class="form-control" required placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" name="subject" class="form-control" required placeholder="What is this regarding?">
+                </div>
+
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea name="message" class="form-control" rows="6" required placeholder="Explain your issue in detail..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Send Message</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<%- include('../../partials/footer') %>
+</body>
+</html>

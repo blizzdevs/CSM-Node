@@ -1,0 +1,8 @@
+{
+  "ignore": [
+    "src/cache/*",
+    "logs/*",
+    "*.json"
+  ],
+  "ext": "js,ejs,html"
+}

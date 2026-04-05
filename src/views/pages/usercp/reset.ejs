@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<%- include('../../partials/nav') %>
+<main class="content-wrapper">
+<div class="container" style="padding-top:40px;padding-bottom:60px;">
+    <div style="display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start;">
+
+        <div><%- include('../../partials/usercp-nav') %></div>
+
+        <div>
+            <div class="section-title">Character Reset</div>
+
+            <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+            <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
+
+            <!-- Requirements -->
+            <div class="card" style="margin-bottom:20px;padding:14px 18px;">
+                <div class="card-title">Reset Requirements</div>
+                <div style="display:flex;flex-wrap:wrap;gap:20px;">
+                    <div>
+                        <div class="hero-stat-label">Level Required</div>
+                        <div class="hero-stat-value" style="font-size:20px;"><%= resetCfg.requiredLevel %></div>
+                    </div>
+                    <% if (resetCfg.zenCost > 0) { %>
+                    <div>
+                        <div class="hero-stat-label">Zen Cost</div>
+                        <div class="hero-stat-value" style="font-size:20px;"><%= resetCfg.zenCost.toLocaleString() %></div>
+                    </div>
+                    <% } %>
+                    <% if (resetCfg.maximumResets > 0) { %>
+                    <div>
+                        <div class="hero-stat-label">Max Resets</div>
+                        <div class="hero-stat-value" style="font-size:20px;"><%= resetCfg.maximumResets %></div>
+                    </div>
+                    <% } %>
+                    <% if (resetCfg.pointsReward > 0) { %>
+                    <div>
+                        <div class="hero-stat-label">Points Reward</div>
+                        <div class="hero-stat-value" style="font-size:20px;color:var(--accent);"><%= resetCfg.pointsReward %></div>
+                    </div>
+                    <% } %>
+                </div>
+                <div style="margin-top:12px;font-size:11px;color:var(--text-sec);line-height:1.7;">
+                    <% if (!resetCfg.keepStats) { %><span>Stats will be reset to default. </span><% } else { %><span>Stats will be kept. </span><% } %>
+                    <% if (resetCfg.clearInventory) { %><span style="color:var(--accent);">Inventory will be cleared.</span><% } %>
+                </div>
+            </div>
+
+            <!-- Personajes -->
+            <% if (characters.length > 0) { %>
+                <% characters.forEach(function(char) { %>
+                    <div class="card" style="margin-bottom:16px;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;">
+                            <div style="display:flex;align-items:center;gap:20px;">
+                                <div>
+                                    <div style="font-family:var(--font-h);font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text);">
+                                        <%= char.Name %>
+                                    </div>
+                                    <div style="margin-top:6px;display:flex;gap:20px;">
+                                        <div>
+                                            <span style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-sec);">Level</span>
+                                            <span style="font-family:var(--font-mono);color:var(--gold);margin-left:6px;"><%= char.cLevel %></span>
+                                        </div>
+                                        <div>
+                                            <span style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-sec);">Resets</span>
+                                            <span style="font-family:var(--font-mono);color:var(--gold);margin-left:6px;"><%= char.ResetCount %></span>
+                                        </div>
+                                        <div>
+                                            <span style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-sec);">Zen</span>
+                                            <span style="font-family:var(--font-mono);color:var(--gold);margin-left:6px;"><%= (char.Money || 0).toLocaleString() %></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <form action="/usercp/reset" method="POST" style="flex-shrink:0;">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <input type="hidden" name="character" value="<%= char.Name %>">
+                                <button type="submit" class="btn btn-primary" style="font-size:11px;">
+                                    Reset Character
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <div class="card" style="text-align:center;padding:40px;color:var(--text-sec);font-size:13px;">
+                    No characters found on this account.
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+</main>
+<%- include('../../partials/footer') %>
+</body>
+</html>

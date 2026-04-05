@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .siege-hero {
+            background: linear-gradient(0deg, var(--bg) 0%, rgba(8,8,8,0.7) 100%), url('https://i.imgur.com/7L3f1uI.jpg') center/cover;
+            padding: 80px 0 60px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+        .guild-logo-bg {
+            display: inline-flex;
+            width: 120px;
+            height: 120px;
+            background: #111;
+            border: 2px solid var(--gold);
+            padding: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 40px rgba(201, 168, 76, 0.2);
+            image-rendering: pixelated;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<%- include('../partials/nav') %>
+
+<main class="content-wrapper" style="padding:0;">
+    <section class="siege-hero">
+        <div class="container">
+            <h1 class="hero-title" style="font-size:36px;margin-bottom:10px;">Valley of Loren</h1>
+            <p style="color:var(--text-sec);font-size:14px;letter-spacing:1px;text-transform:uppercase;">Castle Siege Data</p>
+        </div>
+    </section>
+
+    <div class="container" style="padding-bottom: 80px;">
+        <div class="card" style="max-width: 700px; margin: 0 auto; text-align:center; padding: 40px;">
+            
+            <% if (castleInfo && ownerGuild) { %>
+                <div style="margin-bottom: 10px; color: var(--gold); font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;">
+                    Lord of the Castle
+                </div>
+                <div class="guild-logo-bg">
+                    <!-- Para un servidor real, esto invocará un decodificador de hex string a logo. Por ahora simulamos si hay G_Mark -->
+                    <img src="/api/guild-logo/<%= ownerGuild.G_Name %>" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMjIyIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZpbGw9IiM2NjYiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5MT0dPPC90ZXh0Pjwvc3ZnPg=='" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <h2 style="font-family: var(--font-h); font-size: 28px; color: #fff; margin-bottom: 5px;"><%= ownerGuild.G_Name %></h2>
+                <div style="color: var(--text-sec); font-size: 14px; margin-bottom: 30px;">
+                    Master: <strong style="color:#fff;"><%= ownerGuild.G_Master %></strong> &middot; Score: <%= (ownerGuild.G_Score || 0).toLocaleString() %>
+                </div>
+
+                <div class="info-grid">
+                    <div style="background: var(--bg); border: 1px solid var(--border); padding: 16px;">
+                        <div style="color: var(--text-sec); font-size: 12px; text-transform: uppercase;">Tax Rate (Chaos Machine)</div>
+                        <div style="color: var(--gold); font-size: 20px; font-family: var(--font-mono); margin-top: 5px;">
+                            <%= castleInfo.TAX_RATE_CHAOS %>%
+                        </div>
+                    </div>
+                    <div style="background: var(--bg); border: 1px solid var(--border); padding: 16px;">
+                        <div style="color: var(--text-sec); font-size: 12px; text-transform: uppercase;">Tax Rate (Store)</div>
+                        <div style="color: var(--gold); font-size: 20px; font-family: var(--font-mono); margin-top: 5px;">
+                            <%= castleInfo.TAX_RATE_STORE %>%
+                        </div>
+                    </div>
+                </div>
+
+            <% } else { %>
+                <div style="font-size: 40px; margin-bottom: 20px;">🏰</div>
+                <h2 style="font-family: var(--font-h); font-size: 24px; color: #fff; margin-bottom: 10px;">The Castle is Abandoned</h2>
+                <p style="color: var(--text-sec); font-size: 14px;">No alliance currently controls the Valley of Loren.</p>
+            <% } %>
+
+        </div>
+    </div>
+</main>
+
+<%- include('../partials/footer') %>
+</body>
+</html>
